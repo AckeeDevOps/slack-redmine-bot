@@ -12,11 +12,19 @@ RUN apk --update --no-cache add --virtual build-dependencies \
 
 # build image
 
-FROM scratch
+FROM alpine
+
+ENV REDMINE_URL=
+ENV REDMINE_API_KEY=
+ENV SLACK_TOKEN=
+
+RUN apk --update --no-cache add gettext # install envsubst
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /slack-redmine-bot /slack-redmine-bot
+COPY ./config.yml.template /
+COPY ./docker-entrypoint.sh /
 
 WORKDIR /
 
-ENTRYPOINT ["/slack-redmine-bot", "--config", "/config.yml"]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]

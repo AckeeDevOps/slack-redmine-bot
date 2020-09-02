@@ -1,0 +1,7 @@
+redmine:
+    url: ${REDMINE_URL}
+    api_key: ${REDMINE_API_KEY}
+    closed_statuses: [5, 6]
+    high_priorities: [6, 7]
+slack:
+    token: ${SLACK_TOKEN}
